@@ -26,7 +26,9 @@ namespace ProxiLAB_Example
 
             //var x = KeoService.SendTcl(keo, txBuffer, 5000);
             //var x = KeoService.RequestTearing(keo, 5000);
-            
+
+            KeoService.InitProtocol(keo);
+
             DateTime _starttime = DateTime.UtcNow;
             Stopwatch _stopwatch = Stopwatch.StartNew();
             DateTime highresDT = _starttime.AddTicks(_stopwatch.Elapsed.Ticks);
@@ -40,6 +42,8 @@ namespace ProxiLAB_Example
             t2.Start();
 
             DateTime highresDT2 = _starttime.AddTicks(_stopwatch.Elapsed.Ticks);
+
+
 
             Console.WriteLine(highresDT);
             Console.WriteLine(highresDT2);

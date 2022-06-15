@@ -32,7 +32,7 @@ namespace ProxiLAB_Example
             byte[] SAK = new byte[1];
 
             keo.Reader.Power(0);
-            keo.Reader.Power(200);
+            keo.Reader.Power(150);
 
             //Command REQUEST A
             error = keo.Reader.ISO14443.TypeA.Request(out answer[0], (uint)answer.Length, out answerLength);
@@ -52,12 +52,12 @@ namespace ProxiLAB_Example
 
             for (uint cascadeLevel = 1; cascadeLevel <= 3; cascadeLevel++)
             {
-                keo.Delay(100);
+                keo.Delay(10);
 
                 //Command ANTICOLLISION A
                 keo.Reader.ISO14443.TypeA.Anticollision(cascadeLevel, out UID[0], (uint)UID.Length, out UIDLength);
 
-                keo.Delay(100);
+                keo.Delay(10);
 
                 //Command SELECT A
                 String str = "UID: ";
@@ -89,7 +89,7 @@ namespace ProxiLAB_Example
                     break;
             }
 
-            keo.Delay(100);
+            keo.Delay(10);
 
             //Command RATS
             System.Diagnostics.Debug.WriteLine("RATS command...");
@@ -120,6 +120,7 @@ namespace ProxiLAB_Example
             byte[] rxBuffer = new byte[266];
             uint rxBufferLength;
             System.Diagnostics.Debug.WriteLine("Tcl command...");
+            keo.Reader.Power(150);
             error = keo.Reader.ISO14443.SendTclCommand(0x00, 0x00, ref apdu[0], (uint)apdu.Length, out rxBuffer[0], (uint)rxBuffer.Length, out rxBufferLength);
             if (error != (uint)ProxiLABErrorCode.ERR_SUCCESSFUL)
             {
