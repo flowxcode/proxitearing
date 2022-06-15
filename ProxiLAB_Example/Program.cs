@@ -16,12 +16,13 @@ namespace ProxiLAB_Example
         {
             IProxiLAB keo = (IProxiLAB)Activator.CreateInstance(Type.GetTypeFromProgID("KEOLABS.ProxiLAB"));
 
-            KeoService.InitProtocol(keo);
+            //KeoService.InitProtocol(keo);
 
             byte[] txBuffer = { 0x00, 0xA4, 0x04, 0x00, 0x08, 0xA0, 0x00, 0x00, 0x01, 0x51, 0x00, 0x00, 0x00, 0x00 };
             byte[] rxBuffer = new byte[266];
             uint err;
-            var x = KeoService.SendTcl(keo, txBuffer, 5000);
+            //var x = KeoService.SendTcl(keo, txBuffer, 5000);
+            var x = KeoService.RequestTearing(keo, 5000);
         }
     }
 }
