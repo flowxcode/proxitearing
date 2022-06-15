@@ -149,38 +149,34 @@ namespace ProxiLAB_Example
 
         public static byte[] SendTcl(IProxiLAB keo, byte[] apdu, uint cycles)
         {
-            byte[] answer = null;
+            byte[] answer = new byte[128];
             uint answerLength = 0;
-
-
-
-            uint error = 0;
-
-            byte[] UID = new byte[4];
 
             byte[] rxBuffer = new byte[266];
             uint rxBufferLength;
 
-            keo.Settings.Mode = (byte)eSettingsMode.MODE_READER_AB;
-            error = keo.Sequencer.StartChaining();
+            uint error = 0;
 
-            System.Diagnostics.Debug.WriteLine("Tcl command...");
-            error = keo.Reader.ISO14443.TypeA.Request(out answer[0], (uint)answer.Length, out answerLength);
-            //error = keo.Reader.ISO14443.SendTclCommand(0x00, 0x00, ref apdu[0], (uint)apdu.Length, out rxBuffer[0], (uint)rxBuffer.Length, out rxBufferLength);
+            keo.Settings.Mode = (byte)eSettingsMode.MODE_READER_AB;
+            keo.Sequencer.StartChaining();
+
             keo.Sequencer.DelayCycle((byte)eClockDomain.CLOCK_DOMAIN_1356, cycles);
+
+            error = keo.Reader.ISO14443.SendTclCommand(0x00, 0x00, ref apdu[0], (uint)apdu.Length, out rxBuffer[0], (uint)rxBuffer.Length, out rxBufferLength);
+
+            keo.Sequencer.DelayCycle((byte)eClockDomain.CLOCK_DOMAIN_1356, 3000);
+
             keo.Reader.RfReset();
+
+            keo.Sequencer.Run();
+
             if (error != (uint)ProxiLABErrorCode.ERR_SUCCESSFUL)
             {
-                //Display the error
                 var errorString = keo.GetErrorInfo(error);
                 System.Diagnostics.Debug.WriteLine("Tcl: " + keo.GetErrorInfo(error));
-
-                throw new Exception(errorString);
             }
             else
             {
-                /*
-                //Display the answer
                 String str = "Tcl response: ";
                 for (uint i = 0; i < rxBufferLength; i++)
                     str += "0x" + rxBuffer[i].ToString("X2") + " ";
@@ -191,10 +187,10 @@ namespace ProxiLAB_Example
                     returnBuffer[i] = rxBuffer[i];
 
                 return returnBuffer;
-                */
+                
             }
 
-            return UID;
+            return answer;
         }
 
         public static byte[] RequestTearing(IProxiLAB keo, uint cycles)
