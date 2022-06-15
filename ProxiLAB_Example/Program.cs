@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,6 +26,10 @@ namespace ProxiLAB_Example
 
             //var x = KeoService.SendTcl(keo, txBuffer, 5000);
             //var x = KeoService.RequestTearing(keo, 5000);
+            
+            DateTime _starttime = DateTime.UtcNow;
+            Stopwatch _stopwatch = Stopwatch.StartNew();
+            DateTime highresDT = _starttime.AddTicks(_stopwatch.Elapsed.Ticks);
 
             KeoSend ks = new KeoSend();
             KeoTear kt = new KeoTear();
@@ -33,6 +38,13 @@ namespace ProxiLAB_Example
             t1.Start();
             Thread t2 = new Thread(new ThreadStart(kt.Tear));
             t2.Start();
+
+            DateTime highresDT2 = _starttime.AddTicks(_stopwatch.Elapsed.Ticks);
+
+            Console.WriteLine(highresDT);
+            Console.WriteLine(highresDT2);
+
+            Console.ReadKey();
         }
     }
 }
