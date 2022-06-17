@@ -31,7 +31,6 @@ namespace ProxiLAB_Example
             answer = new byte[128];
             uint answerLength = 0;
             byte[] SAK = new byte[1];
-
             keo.Reader.Power(0);
             keo.Reader.Power(150);
 
@@ -205,15 +204,19 @@ namespace ProxiLAB_Example
 
             uint error = 0;
 
-            var x = Directory.GetCurrentDirectory();
+            var dir = Directory.GetCurrentDirectory();
+            var filepath = dir + "\\Tearing.csv";
 
-            error = keo.Spulse.LoadSpulseCsvFile("Tearing.kwav", 10000, 14, (uint)eEmulatorLoadSpulseMode.STAND_ALONE);
+            error = keo.Spulse.LoadSpulseCsvFile(filepath, 30000, 14, (uint)eEmulatorLoadSpulseMode.STAND_ALONE);
+            var x = keo.GetErrorInfo(error);
             error = keo.Spulse.EnableSpulse(2, 3);
             
             error = keo.Reader.ISO14443.SendTclCommand(0x00, 0x00, ref apdu[0], (uint)apdu.Length, out rxBuffer[0], (uint)rxBuffer.Length, out rxBufferLength);
 
 
-
+            keo.Delay(400);
+            keo.Reader.PowerOff();
+            System.Diagnostics.Debug.WriteLine("pulse and tcl done");
 
             if (error != (uint)ProxiLABErrorCode.ERR_SUCCESSFUL)
             {
