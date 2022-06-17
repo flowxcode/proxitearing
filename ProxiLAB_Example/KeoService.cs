@@ -1,6 +1,7 @@
 ﻿using ProxiLABLib;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -189,6 +190,49 @@ namespace ProxiLAB_Example
 
                 return returnBuffer;
                 
+            }
+
+            return answer;
+        }
+
+        public static byte[] SPulseTcl(IProxiLAB keo, byte[] apdu, uint cycles)
+        {
+            byte[] answer = new byte[128];
+            uint answerLength = 0;
+
+            byte[] rxBuffer = new byte[266];
+            uint rxBufferLength;
+
+            uint error = 0;
+
+            var x = Directory.GetCurrentDirectory();
+
+            error = keo.Spulse.LoadSpulseCsvFile("Tearing.kwav", 10000, 14, (uint)eEmulatorLoadSpulseMode.STAND_ALONE);
+            error = keo.Spulse.EnableSpulse(2, 3);
+            
+            error = keo.Reader.ISO14443.SendTclCommand(0x00, 0x00, ref apdu[0], (uint)apdu.Length, out rxBuffer[0], (uint)rxBuffer.Length, out rxBufferLength);
+
+
+
+
+            if (error != (uint)ProxiLABErrorCode.ERR_SUCCESSFUL)
+            {
+                var errorString = keo.GetErrorInfo(error);
+                System.Diagnostics.Debug.WriteLine("Tcl: " + keo.GetErrorInfo(error));
+            }
+            else
+            {
+                String str = "Tcl response: ";
+                for (uint i = 0; i < rxBufferLength; i++)
+                    str += "0x" + rxBuffer[i].ToString("X2") + " ";
+                System.Diagnostics.Debug.WriteLine(str);
+
+                byte[] returnBuffer = new byte[rxBufferLength];
+                for (uint i = 0; i < rxBufferLength; i++)
+                    returnBuffer[i] = rxBuffer[i];
+
+                return returnBuffer;
+
             }
 
             return answer;
