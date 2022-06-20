@@ -204,15 +204,24 @@ namespace ProxiLAB_Example
 
             uint error = 0;
 
+            //keo.Reader.RfReset();
+
             var dir = Directory.GetCurrentDirectory();
-            var filepath = dir + "\\Tearing.csv";
+            var filepath = dir + "\\Tearing.kwav";
+            Console.WriteLine("filepath: " + filepath);
 
-            error = keo.Spulse.LoadSpulseCsvFile(filepath, 30000, 14, (uint)eEmulatorLoadSpulseMode.STAND_ALONE);
+            error = keo.Spulse.LoadSpulseCsvFile(filepath, (uint)30000, (uint)eFrameTypeFormat.FRAME_TYPE_SPULSE, (uint)eEmulatorLoadSpulseMode.STAND_ALONE);
+            Console.WriteLine(error);
             var x = keo.GetErrorInfo(error);
-            error = keo.Spulse.EnableSpulse(2, 3);
-            
-            error = keo.Reader.ISO14443.SendTclCommand(0x00, 0x00, ref apdu[0], (uint)apdu.Length, out rxBuffer[0], (uint)rxBuffer.Length, out rxBufferLength);
+            Console.WriteLine(x);
 
+            error = keo.Spulse.EnableSpulse(2, 3);
+            Console.WriteLine(error);
+
+            error = keo.Reader.ISO14443.SendTclCommand(0x00, 0x00, ref apdu[0], (uint)apdu.Length, out rxBuffer[0], (uint)rxBuffer.Length, out rxBufferLength);
+            Console.WriteLine(error);
+            var x1 = keo.GetErrorInfo(error);
+            Console.WriteLine(x1);
 
             keo.Delay(400);
             keo.Reader.PowerOff();
