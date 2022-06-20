@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -23,6 +24,19 @@ namespace ProxiLAB_Example
             byte[] rxBuffer = new byte[266];
             uint err;
 
+            var path = Directory.GetCurrentDirectory();
+
+            keo.Spy.OutputFile = path + "\\spyfile.trc";
+
+            keo.Spy.Analyzer.ISO14443Enable = 1;
+            keo.Spy.Analyzer.ISO15693Enable = 0;
+            keo.Spy.Analyzer.ISO18092Enable = 0;
+            keo.Spy.Analyzer.JISX6319Enable = 0;
+            keo.Spy.Analyzer.DisplaySMA1 = 1;
+            keo.Spy.Analyzer.OutputFile = path + "\\spyfile.xgpa";
+            keo.Spy.Analyzer.Start();
+
+            keo.Spy.Start();
 
             KeoService.InitProtocol(keo);
             KeoService.SPulseTcl(keo, txBuffer, 0);
@@ -30,7 +44,9 @@ namespace ProxiLAB_Example
             DateTime _starttime = DateTime.UtcNow;
             Stopwatch _stopwatch = Stopwatch.StartNew();
             DateTime highresDT = _starttime.AddTicks(_stopwatch.Elapsed.Ticks);
-                   
+
+            keo.Spy.Analyzer.Stop();
+            keo.Spy.Stop();
 
             Console.WriteLine(highresDT);
 

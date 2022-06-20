@@ -211,17 +211,12 @@ namespace ProxiLAB_Example
             Console.WriteLine("filepath: " + filepath);
 
             error = keo.Spulse.LoadSpulseCsvFile(filepath, (uint)30000, (uint)eFrameTypeFormat.FRAME_TYPE_SPULSE, (uint)eEmulatorLoadSpulseMode.STAND_ALONE);
-            Console.WriteLine(error);
-            var x = keo.GetErrorInfo(error);
-            Console.WriteLine(x);
+    
+            error = keo.Spulse.EnableSpulse((uint)eEmulatorSpulseEvent.SP_PCD_EOF, (uint)eEmulatorSpulseOutput.SP_RF_POWER);
 
-            error = keo.Spulse.EnableSpulse(2, 3);
-            Console.WriteLine(error);
 
             error = keo.Reader.ISO14443.SendTclCommand(0x00, 0x00, ref apdu[0], (uint)apdu.Length, out rxBuffer[0], (uint)rxBuffer.Length, out rxBufferLength);
-            Console.WriteLine(error);
-            var x1 = keo.GetErrorInfo(error);
-            Console.WriteLine(x1);
+    
 
             keo.Delay(400);
             keo.Reader.PowerOff();
