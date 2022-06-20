@@ -200,7 +200,7 @@ namespace ProxiLAB_Example
             uint answerLength = 0;
 
             byte[] rxBuffer = new byte[266];
-            uint rxBufferLength;
+            uint rxBufferLength = (uint)rxBuffer.Length;
 
             uint error = 0;
 
@@ -211,12 +211,28 @@ namespace ProxiLAB_Example
             Console.WriteLine("filepath: " + filepath);
 
             error = keo.Spulse.LoadSpulseCsvFile(filepath, (uint)30000, (uint)eFrameTypeFormat.FRAME_TYPE_SPULSE, (uint)eEmulatorLoadSpulseMode.STAND_ALONE);
-    
-            error = keo.Spulse.EnableSpulse((uint)eEmulatorSpulseEvent.SP_PCD_EOF, (uint)eEmulatorSpulseOutput.SP_RF_POWER);
+
+            //error = keo.Spulse.EnableSpulse((uint)eEmulatorSpulseEvent.SP_PCD_EOF, (uint)eEmulatorSpulseOutput.SP_RF_POWER);
+
+            //error = keo.Reader.ISO14443.SendTclCommand(0x00, 0x00, ref apdu[0], (uint)apdu.Length, out rxBuffer[0], (uint)rxBuffer.Length, out rxBufferLength);
 
 
-            error = keo.Reader.ISO14443.SendTclCommand(0x00, 0x00, ref apdu[0], (uint)apdu.Length, out rxBuffer[0], (uint)rxBuffer.Length, out rxBufferLength);
-    
+
+
+            byte[] txBuffer = { 0xF0, 0xA0, 0x02, 0xA1, 0x01 };
+            byte[] parityErrorBuffer = { 0, 0, 0, 0, 1 };
+            byte[] parityBuffer = { 1, 1, 1, 1, 1 };
+            var appendCRC = 1;
+            uint timeout = 100000;
+
+            uint rxBufferReturnSize;
+
+            error = keo.Reader.ISO14443.TypeA.SendTransparentCommand(106, 106, 1, timeout, ref apdu[0], (uint)apdu.Length,
+                ref parityBuffer[0], (uint)parityBuffer.Length, out rxBuffer[0], rxBufferLength, out rxBufferReturnSize, (byte)eSendTransparentCommandMode.PARITY_BITS);
+
+            //keo.Reader.ISO14443.TypeA.SendTransparentCommand();
+
+
 
             keo.Delay(400);
             keo.Reader.PowerOff();
