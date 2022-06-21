@@ -49,6 +49,7 @@
     <Compile Include="KeoTear.cs" />
     <Compile Include="KeoSend.cs" />
     <Compile Include="KeoService.cs" />
+    <Compile Include="SPulsePyClone.cs" />
     <Compile Include="ProgramSPulse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

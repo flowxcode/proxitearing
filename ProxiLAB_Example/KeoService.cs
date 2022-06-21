@@ -31,6 +31,7 @@ namespace ProxiLAB_Example
             answer = new byte[128];
             uint answerLength = 0;
             byte[] SAK = new byte[1];
+            keo.Reader.RfReset();
             keo.Reader.Power(0);
             keo.Reader.Power(150);
 
@@ -204,7 +205,7 @@ namespace ProxiLAB_Example
 
             uint error = 0;
 
-            //keo.Reader.RfReset();
+            keo.Reader.RfReset();
 
             var dir = Directory.GetCurrentDirectory();
             var filepath = dir + "\\Tearing.kwav";
@@ -218,7 +219,7 @@ namespace ProxiLAB_Example
             error = keo.Reader.ISO14443.SendTclCommand(0x00, 0x00, ref apdu[0], (uint)apdu.Length, out rxBuffer[0], (uint)rxBuffer.Length, out rxBufferLength);
     
 
-            keo.Delay(400);
+            keo.Delay(900);
             keo.Reader.PowerOff();
             System.Diagnostics.Debug.WriteLine("pulse and tcl done");
 

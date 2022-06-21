@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
+
 //To use ProxiLABLib namespace, you must add a reference to ProxiLABLib in your project:
 //In 'Solution Explorer', right click on 'References', then 'Add Reference...'
 //In the 'Add Reference' window, select 'ProxiLAB 1.0 Type Library' in the 'COM' tab and click 'OK'
@@ -17,6 +18,7 @@ namespace ProxiLAB_Example
         static void Main(string[] args)
         {
             ProgramSPulse.StartSPulse();
+            //SPulsePyClone.Run();
         }
 
         public void threads()
@@ -53,7 +55,7 @@ namespace ProxiLAB_Example
             Console.WriteLine(highresDT);
             Console.WriteLine(highresDT2);
 
-            Console.ReadKey();
+            //Console.ReadKey();
 
         }
     }
