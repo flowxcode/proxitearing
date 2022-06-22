@@ -17,8 +17,8 @@ namespace ProxiLAB_Example
     {
         static void Main(string[] args)
         {
-            ProgramSPulse.StartSPulse();
-            //SPulsePyClone.Run();
+            //ProgramSPulse.StartSPulse();
+            SPulsePyClone.Run();
         }
 
         public void threads()
