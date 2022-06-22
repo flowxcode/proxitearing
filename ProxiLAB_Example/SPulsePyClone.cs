@@ -18,7 +18,7 @@ namespace ProxiLAB_Example
             var f1 = path + "\\spyfile.trc";
             var f2 = path + "\\spyfile.xgpa";
             if (File.Exists(f1))
-                File.Delete(f1);
+                //File.Delete(f1);
             if (File.Exists(f2))
                 File.Delete(f2);
 
