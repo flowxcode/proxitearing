@@ -1,0 +1,5 @@
+﻿// error codes, due to loss of power https://www.eftlab.com/knowledge-base/complete-list-of-apdu-responses/
+                    if (result == null) {
+                        byte[] errorCode = { 0x91, 0xEE };
+                        return BitConverter.ToString(errorCode).Replace("-", "x"); ;
+                    }
